@@ -4,38 +4,39 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
-   <children>
-      <MenuBar>
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
+<?import javafx.scene.control.ScrollPane?>
+<VBox maxHeight="400.0" maxWidth="600.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <MenuBar maxHeight="25.0" maxWidth="600.0" minHeight="25.0" minWidth="600.0" prefHeight="25.0" prefWidth="600.0">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Close" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Delete" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="About" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <SplitPane dividerPositions="0.5" prefHeight="419.0" prefWidth="600.0">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
+                <ScrollPane id="scrollpane" minHeight="0.0" minWidth="0.0" prefHeight="158.0" prefWidth="290.0" />
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="119.0" prefWidth="417.0" />
             </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-      <SplitPane dividerPositions="0.5" prefHeight="419.0" prefWidth="600.0">
-        <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="158.0" prefWidth="290.0" />
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="119.0" prefWidth="417.0" />
-        </items>
-      </SplitPane>
-      <HBox prefHeight="87.0" prefWidth="600.0" />
-   </children>
+        </SplitPane>
+        <HBox prefHeight="87.0" prefWidth="600.0" />
+    </children>
 </VBox>
