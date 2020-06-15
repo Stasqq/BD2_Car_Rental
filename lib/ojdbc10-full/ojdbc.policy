@@ -67,7 +67,7 @@ grant codeBase "file:${oracle.jdbc.policy.JDBC_CODE_BASE}" {
   /*Needed only if you use xml */
    permission java.util.PropertyPermission "oracle.xdkjava.compatibility.version", "read";
 
-  /* Needed only if you use Fast Connection Failover */
+  /* Needed only if you use Fast DBConnection Failover */
   permission oracle.ons.CreatePermission "ONSUser";
   permission oracle.ons.SubscribePermission "ONSUser";
   permission java.io.FilePermission "${oracle.jdbc.policy.OPMN_CONFIG}", "read";
@@ -169,7 +169,7 @@ grant codeBase "file:${oracle.jdbc.policy.AQ_CODE_BASE}" {
 
 };
 
-/* Needed only if you use Fast Connection Failover */
+/* Needed only if you use Fast DBConnection Failover */
 grant codeBase "file:${oracle.jdbc.policy.ONS_CODE_BASE}" {
 
   permission oracle.ons.CreatePermission "ONSUser";

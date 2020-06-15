@@ -6,13 +6,13 @@ https://www.oracle.com/downloads/licenses/oracle-free-license.html
 
 ojdbc10-full.tar.gz - JDBC Thin Driver and Companion JARS
 ========================================================
-This TAR archive (ojdbc10-full.tar.gz) contains the 19.7 release of the Oracle JDBC Thin driver(ojdbc10.jar), the Universal Connection Pool (ucp.jar) and other companion JARs grouped by category. 
+This TAR archive (ojdbc10-full.tar.gz) contains the 19.7 release of the Oracle JDBC Thin driver(ojdbc10.jar), the Universal DBConnection Pool (ucp.jar) and other companion JARs grouped by category.
 
 (1) ojdbc10.jar (4,431,447 bytes) - 
 (SHA1 Checksum: 3abcfd119f1cc71f16730cdfde8ae18443d5b8c4)
 Oracle JDBC Driver compatible with JDK8, JDK9, and JDK11; 
 (2) ucp.jar (1,684,253 bytes) - (SHA1 Checksum:299c4305df946e759f204f64809a3560a4a50233)
-Universal Connection Pool classes for use with JDK8, JDK9, and JDK11 -- for performance, scalability, high availability, sharded and multitenant databases.
+Universal DBConnection Pool classes for use with JDK8, JDK9, and JDK11 -- for performance, scalability, high availability, sharded and multitenant databases.
 (3) ojdbc.policy (11,515 bytes) - Sample security policy file for Oracle Database JDBC drivers
 
 ======================
@@ -48,4 +48,4 @@ Java APIs for subscribing to RAC events via ONS; simplefan policy and javadoc
 =================
 USAGE GUIDELINES
 =================
-Refer to the JDBC Developers Guide (https://docs.oracle.com/en/database/oracle/oracle-database/19/jjdbc/index.html) and Universal Connection Pool Developers Guide (https://docs.oracle.com/en/database/oracle/oracle-database/19/jjucp/index.html)for more details. 
+Refer to the JDBC Developers Guide (https://docs.oracle.com/en/database/oracle/oracle-database/19/jjdbc/index.html) and Universal DBConnection Pool Developers Guide (https://docs.oracle.com/en/database/oracle/oracle-database/19/jjucp/index.html)for more details.
