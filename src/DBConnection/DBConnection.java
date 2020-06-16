@@ -30,7 +30,6 @@ public class DBConnection {
             pst = conn.prepareStatement("select * from car");
             rs = pst.executeQuery();
             while(rs.next()){
-                System.out.println("auto id: "+rs.getInt("id"));
                 cars.add(getCarById(rs.getInt("id")));
             }
             conn.close();

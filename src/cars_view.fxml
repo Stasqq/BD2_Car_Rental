@@ -82,11 +82,11 @@
                   <Label layoutX="11.0" layoutY="382.0" text="Opcje wyświetlania" />
                   <CheckBox fx:id="onlyFreeCheckBox" layoutX="23.0" layoutY="412.0" mnemonicParsing="false" text="Wyświetl tylko wolne" />
                   <Separator layoutX="12.0" layoutY="369.0" prefWidth="200.0" />
-                  <Button fx:id="showAllButton" layoutX="52.0" layoutY="321.0" mnemonicParsing="false" text="Wyświetl wszystkie" />
-                  <Button fx:id="cordLoad" layoutX="131.0" layoutY="54.0" mnemonicParsing="false" text="Załaduj" />
+                  <Button fx:id="showAllButton" layoutX="52.0" layoutY="321.0" mnemonicParsing="false" text="Wyświetl wszystkie" onAction="#showAllCars" />
+                  <Button fx:id="cordLoad" layoutX="131.0" layoutY="54.0" mnemonicParsing="false" text="Załaduj" onAction="#loadCords"/>
                </children>
         </AnchorPane>
-        <ScrollPane fx:id="scrollPane" prefHeight="-1.0" prefWidth="-1.0" />
+        <Pane fx:id="centerPane" prefHeight="-1.0" prefWidth="-1.0" />
         <AnchorPane fx:id="rightAnchorPane" />
       </items>
     </SplitPane>
