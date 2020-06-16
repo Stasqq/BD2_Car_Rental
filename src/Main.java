@@ -63,7 +63,7 @@ public class Main extends Application {
 
         ScrollPane scrollPane;
         if (root != null) {
-            scrollPane = (ScrollPane) root.lookup("#scrollpane");
+            scrollPane = (ScrollPane) root.lookup("#scrollPane");
             AnchorPane anchorPane = new AnchorPane();
             anchorPane.getChildren().add(table);
             scrollPane.setContent(anchorPane);
