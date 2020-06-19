@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 import Car.*;
 import DBConnection.*;
@@ -6,8 +7,11 @@ import DBConnection.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
 public class Controller {
@@ -19,6 +23,8 @@ public class Controller {
     private TableView<Car> table;
     private ObservableList<Car> data;
 
+    private CarInfoBoardController carBoard;
+
     public Controller(){
 
     }
@@ -26,7 +32,7 @@ public class Controller {
     @FXML
     private void initialize()
     {
-        dbConnection = new DBConnection("jdbc:oracle:thin:@localhost:1521:xe","bdproject","bdproject");
+        dbConnection = new DBConnection("jdbc:oracle:thin:@localhost:1521:xe","\"bdproject\"","\"bdproject\"");
 
         rangeText.setDisable(true);
         rangeShowButton.setDisable(true);
@@ -34,7 +40,24 @@ public class Controller {
         nCarButton.setDisable(true);
         showAllButton.setDisable(true);
         onlyFreeCheckBox.setDisable(true);
+        try{
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("CarInfoBoard.fxml"));
+            Parent root = loader.load();
+            splitPane.getItems().add(root);
+            carBoard = loader.getController();
+
+
+        }catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+
+
+
     }
+    @FXML
+    private SplitPane splitPane;
 
     @FXML
     private TextField nCordText;
@@ -126,6 +149,20 @@ public class Controller {
 
         table.setMinWidth(centerPane.getWidth());
         table.setMinHeight(centerPane.getHeight());
+
+        table.setRowFactory(tv->{
+            TableRow<Car> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                    Car rowData = row.getItem();
+
+                    //TODO: wyświetlenie info o samochodzie
+                    this.carBoard.fillCarInfo(rowData);
+                    this.carBoard.fillOpinionTable(rowData);
+                }
+            });
+            return row ;
+        });
 
         table.setItems(data);
 

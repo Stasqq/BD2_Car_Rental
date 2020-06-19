@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-public class DBConnection {
+ public class DBConnection {
     private String connectionURL;
     private String connectionUser;
     private String connectionPassword;
@@ -37,6 +37,26 @@ public class DBConnection {
             e.printStackTrace();
         }
         return cars;
+    }
+    public double getAvgCarRate(Car car)
+    {
+        double result = -1.0;
+        try{
+            conn = DriverManager.getConnection(connectionURL,connectionUser,connectionPassword);
+            pst = conn.prepareStatement("select avg(RATE) from OPINION where CAR_ID = ? ");
+            pst.setInt(1,car.getId());
+            rs = pst.executeQuery();
+            rs.next();
+            result= rs.getDouble(1);
+            conn.close();
+
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return result;
+
     }
 
     public Car getCarById(int carId){
@@ -79,6 +99,26 @@ public class DBConnection {
             e.printStackTrace();
         }
         return cars;
+    }
+
+    public ArrayList<String> getCarOpinions(Car car)
+    {
+        ArrayList<String> opinions = new ArrayList<>();
+        try{
+            conn = DriverManager.getConnection(connectionURL,connectionUser,connectionPassword);
+            pst = conn.prepareStatement("select opinion, opinion.\"Date\", opinion.rate,customer.first_name from OPINION  inner join customer on OPINION.CUSTOMER_ID = CUSTOMER.ID  where CAR_ID = ?");
+            pst.setInt(1,car.getId());
+
+            rs = pst.executeQuery();
+            while(rs.next()){
+               opinions.add(rs.getString("first_name") +" *"+rs.getInt("rate")+"*\t"+rs.getString("date").substring(0,10)+"\n"+rs.getString("opinion"));
+
+            }
+            conn.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return opinions;
     }
 
 }
