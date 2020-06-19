@@ -141,6 +141,18 @@ public class Controller {
         table.setMinWidth(centerPane.getWidth());
         table.setMinHeight(centerPane.getHeight());
 
+        table.setRowFactory(tv->{
+            TableRow<Car> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                    Car rowData = row.getItem();
+
+                    //TODO: wyświetlenie info o samochodzie
+                }
+            });
+            return row ;
+        });
+
         table.setItems(data);
 
         table.getColumns().add(company);
