@@ -1,14 +1,10 @@
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 
 import Car.*;
 import DBConnection.*;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -72,7 +68,10 @@ public class Controller {
 
     @FXML
     private void showAllCars(){
-        updateTableContent(dbConnection.getCars());
+        if(onlyFreeCheckBox.isSelected())
+            updateTableContent(dbConnection.getFreeCars());
+        else
+            updateTableContent(dbConnection.getCars());
     }
 
     @FXML
@@ -95,26 +94,46 @@ public class Controller {
         }
     }
 
+    @FXML
+    private void showFromRange() {
+
+    }
+
     private void updateTableContent(ArrayList<Car> newContent){
         table = new TableView<Car>();
 
         data = FXCollections.observableArrayList(newContent);
 
-        TableColumn<Car,String>  tableColumn1 = new TableColumn<Car,String>("Company");
-        tableColumn1.setMinWidth(100);
-        tableColumn1.setCellValueFactory(new PropertyValueFactory<Car,String>("company"));
+        TableColumn<Car,String>  company = new TableColumn<Car,String>("Company");
+        company.setMinWidth(100);
+        company.setCellValueFactory(new PropertyValueFactory<Car,String>("company"));
 
-        TableColumn<Car,String>  tableColumn2 = new TableColumn<Car,String> ("Model");
-        tableColumn2.setMinWidth(100);
-        tableColumn2.setCellValueFactory(new PropertyValueFactory<Car,String>("model"));
+        TableColumn<Car,String>  model = new TableColumn<Car,String> ("Model");
+        model.setMinWidth(100);
+        model.setCellValueFactory(new PropertyValueFactory<Car,String>("model"));
+
+        TableColumn<Car, Double>  longitude = new TableColumn<Car, Double> ("Longitude");
+        longitude.setMinWidth(90);
+        longitude.setCellValueFactory(new PropertyValueFactory<Car,Double>("longitude"));
+
+        TableColumn<Car, Double>  lattitude = new TableColumn<Car, Double> ("Lattitude");
+        lattitude.setMinWidth(90);
+        lattitude.setCellValueFactory(new PropertyValueFactory<Car,Double>("lattitude"));
+
+        TableColumn<Car, Status>  status = new TableColumn<Car, Status> ("Status");
+        status.setMinWidth(65);
+        status.setCellValueFactory(new PropertyValueFactory<Car,Status>("status"));
 
         table.setMinWidth(centerPane.getWidth());
         table.setMinHeight(centerPane.getHeight());
 
         table.setItems(data);
 
-        table.getColumns().add(tableColumn1);
-        table.getColumns().add(tableColumn2);
+        table.getColumns().add(company);
+        table.getColumns().add(model);
+        table.getColumns().add(longitude);
+        table.getColumns().add(lattitude);
+        table.getColumns().add(status);
 
         centerPane.getChildren().clear();
         centerPane.getChildren().add(table);

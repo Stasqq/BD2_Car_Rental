@@ -61,7 +61,7 @@
         </Menu>
       </menus>
     </MenuBar>
-    <SplitPane dividerPositions="0.2505567928730512, 0.7505567928730512" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+    <SplitPane dividerPositions="0.2505567928730512, 0.7705567928730512" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <items>
         <AnchorPane fx:id="leftAnchorPane">
                <children>
@@ -72,7 +72,7 @@
                   <Label layoutX="14.0" layoutY="81.0" text="W" />
                   <Label layoutX="11.0" layoutY="134.0" text="W jakiej odległości szukać samochodu" />
                   <TextField fx:id="rangeText" layoutX="19.0" layoutY="162.0" prefHeight="25.0" prefWidth="57.0" />
-                  <Button fx:id="rangeShowButton" layoutX="96.0" layoutY="162.0" mnemonicParsing="false" text="Wyświetl" />
+                  <Button fx:id="rangeShowButton" layoutX="96.0" layoutY="162.0" mnemonicParsing="false" text="Wyświetl" onAction="#showFromRange"/>
                   <Separator layoutX="8.0" layoutY="124.0" prefHeight="0.0" prefWidth="203.0" />
                   <Separator layoutX="10.0" layoutY="207.0" prefWidth="200.0" />
                   <Label layoutX="11.0" layoutY="223.0" text="Wyświetl najbliższych n samochodów" />

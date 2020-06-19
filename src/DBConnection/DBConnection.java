@@ -27,7 +27,7 @@ public class DBConnection {
         ArrayList<Car> cars = new ArrayList<Car>();
         try{
             conn = DriverManager.getConnection(connectionURL,connectionUser,connectionPassword);
-            pst = conn.prepareStatement("select * from car");
+            pst = conn.prepareStatement("select id from car");
             rs = pst.executeQuery();
             while(rs.next()){
                 cars.add(getCarById(rs.getInt("id")));
@@ -63,6 +63,22 @@ public class DBConnection {
         }
         System.out.println("Error in getCarById!");
         return null;
+    }
+
+    public ArrayList<Car> getFreeCars(){
+        ArrayList<Car> cars = new ArrayList<Car>();
+        try{
+            conn = DriverManager.getConnection(connectionURL,connectionUser,connectionPassword);
+            pst = conn.prepareStatement("select id from car where status='free'");
+            rs = pst.executeQuery();
+            while(rs.next()){
+                cars.add(getCarById(rs.getInt("id")));
+            }
+            conn.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return cars;
     }
 
 }

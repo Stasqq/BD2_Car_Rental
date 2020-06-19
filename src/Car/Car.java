@@ -17,8 +17,8 @@ public class Car {
     private double longitude;
     private double lattitude;
 
-    private String status;
-    private String type;
+    private Status status;
+    private Type type;
 
     public Car(int id, int agency_id, int power, int airbags, int mileage,
     String company, String model, double longitude, double lattitude, String status,
@@ -32,15 +32,47 @@ public class Car {
         this.model= new SimpleStringProperty(model);
         this.longitude=longitude;
         this.lattitude=lattitude;
-        this.status=status;
-        this.type=type;
+        switch (status) {
+            case "free":
+                this.status = Status.FREE;
+                break;
+            case "rented":
+                this.status = Status.RENTED;
+                break;
+            case "broken":
+                this.status = Status.BROKEN;
+                break;
+        }
+        switch (type) {
+            case "hybrid":
+                this.type = Type.HYBRID;
+                break;
+            case "electric":
+                this.type = Type.ELECTRIC;
+                break;
+            case "combustion":
+                this.type = Type.COMBUSTION;
+                break;
+        }
     }
 
-    public String getModel(){
+    public String getModel() {
         return model.get();
     }
 
-    public String getCompany(){
+    public String getCompany() {
         return company.get();
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public double getLattitude() {
+        return lattitude;
+    }
+
+    public Status getStatus() {
+        return status;
     }
 }
