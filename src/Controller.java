@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +24,6 @@ public class Controller {
     private TableView<Car> table;
     private ObservableList<Car> data;
 
-    private CarInfoBoardController carBoard;
-
     public Controller(){
 
     }
@@ -32,7 +31,7 @@ public class Controller {
     @FXML
     private void initialize()
     {
-        dbConnection = new DBConnection("jdbc:oracle:thin:@localhost:1521:xe","\"bdproject\"","\"bdproject\"");
+        dbConnection = new DBConnection("jdbc:oracle:thin:@localhost:1521:xe","bdproject","bdproject");
 
         rangeText.setDisable(true);
         rangeShowButton.setDisable(true);
@@ -40,21 +39,6 @@ public class Controller {
         nCarButton.setDisable(true);
         showAllButton.setDisable(true);
         onlyFreeCheckBox.setDisable(true);
-        try{
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("CarInfoBoard.fxml"));
-            Parent root = loader.load();
-            splitPane.getItems().add(root);
-            carBoard = loader.getController();
-
-
-        }catch (Exception e)
-        {
-            System.out.println(e.getMessage());
-        }
-
-
-
     }
     @FXML
     private SplitPane splitPane;
@@ -88,6 +72,9 @@ public class Controller {
 
     @FXML
     private Pane centerPane;
+
+    @FXML
+    private CarInfoBoardController carBoardController;
 
     @FXML
     private void showAllCars(){
@@ -142,11 +129,11 @@ public class Controller {
         data = FXCollections.observableArrayList(newContent);
 
         TableColumn<Car,String>  company = new TableColumn<Car,String>("Company");
-        company.setMinWidth(100);
+        company.setMinWidth(90);
         company.setCellValueFactory(new PropertyValueFactory<Car,String>("company"));
 
         TableColumn<Car,String>  model = new TableColumn<Car,String> ("Model");
-        model.setMinWidth(100);
+        model.setMinWidth(90);
         model.setCellValueFactory(new PropertyValueFactory<Car,String>("model"));
 
         TableColumn<Car, Double>  longitude = new TableColumn<Car, Double> ("Longitude");
@@ -169,9 +156,9 @@ public class Controller {
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
                     Car rowData = row.getItem();
-                  
-                    this.carBoard.fillCarInfo(rowData);
-                    this.carBoard.fillOpinionTable(rowData);
+
+                    carBoardController.fillOpinionTable(rowData);
+                    carBoardController.fillCarInfo(rowData);
                 }
             });
             return row ;

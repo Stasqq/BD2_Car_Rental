@@ -42,9 +42,13 @@ public class CarInfoBoardController
 
     private DBConnection dbConnection;
 
+    public CarInfoBoardController(){
+
+    }
+
     @FXML
     private void initialize() {
-        dbConnection = new DBConnection("jdbc:oracle:thin:@localhost:1521:xe", "\"bdproject\"", "\"bdproject\"");
+        dbConnection = new DBConnection("jdbc:oracle:thin:@localhost:1521:xe", "bdproject", "bdproject");
 
         //zawijanie tesktu
         opinionList.setCellFactory(param -> new ListCell<String >(){
