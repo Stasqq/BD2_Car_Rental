@@ -91,10 +91,7 @@ public class Controller {
 
     @FXML
     private void showAllCars(){
-        if(onlyFreeCheckBox.isSelected())
-            updateTableContent(dbConnection.getFreeCars());
-        else
-            updateTableContent(dbConnection.getCars());
+        updateTableContent(dbConnection.getCars());
     }
 
     @FXML
@@ -119,11 +116,28 @@ public class Controller {
 
     @FXML
     private void showFromRange() {
-
+        if(rangeText.getText().trim().isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Nie podano zakresu!");
+            alert.show();
+        } else if (Double.parseDouble(rangeText.getCharacters().toString()) <= 180) {
+            updateTableContent(dbConnection.getCarsInRange(user.getLongitude(),user.getLattitude(),Double.parseDouble(rangeText.getCharacters().toString())));
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Podano zły zakres!");
+            alert.show();
+        }
     }
 
     private void updateTableContent(ArrayList<Car> newContent){
         table = new TableView<Car>();
+
+        if(onlyFreeCheckBox.isSelected()){
+            ArrayList<Car> tempContent = new ArrayList<Car>();
+            for (Car car : newContent) {
+                if (car.getStatus() == Status.FREE)
+                    tempContent.add(car);
+            }
+            newContent = tempContent;
+        }
 
         data = FXCollections.observableArrayList(newContent);
 
@@ -155,8 +169,7 @@ public class Controller {
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
                     Car rowData = row.getItem();
-
-                    //TODO: wyświetlenie info o samochodzie
+                  
                     this.carBoard.fillCarInfo(rowData);
                     this.carBoard.fillOpinionTable(rowData);
                 }
