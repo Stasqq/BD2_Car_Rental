@@ -7,7 +7,6 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.Spinner?>
@@ -61,35 +60,35 @@
         </Menu>
       </menus>
     </MenuBar>
-    <SplitPane dividerPositions="0.2505567928730512, 0.7705567928730512" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
-      <items>
-        <AnchorPane fx:id="leftAnchorPane">
-               <children>
-                  <Label layoutX="14.0" layoutY="14.0" text="Podaj swoje współrzędne" />
-                  <TextField fx:id="nCordText" layoutX="39.0" layoutY="41.0" prefHeight="25.0" prefWidth="57.0" />
-                  <TextField fx:id="wCordText" layoutX="39.0" layoutY="77.0" prefHeight="25.0" prefWidth="57.0" />
-                  <Label layoutX="14.0" layoutY="45.0" text="N" />
-                  <Label layoutX="14.0" layoutY="81.0" text="W" />
-                  <Label layoutX="11.0" layoutY="134.0" text="W jakiej odległości szukać samochodu" />
-                  <TextField fx:id="rangeText" layoutX="19.0" layoutY="162.0" prefHeight="25.0" prefWidth="57.0" />
-                  <Button fx:id="rangeShowButton" layoutX="96.0" layoutY="162.0" mnemonicParsing="false" text="Wyświetl" onAction="#showFromRange"/>
-                  <Separator layoutX="8.0" layoutY="124.0" prefHeight="0.0" prefWidth="203.0" />
-                  <Separator layoutX="10.0" layoutY="207.0" prefWidth="200.0" />
-                  <Label layoutX="11.0" layoutY="223.0" text="Wyświetl najbliższych n samochodów" />
-                  <Spinner fx:id="carNSpinner" editable="true" layoutX="14.0" layoutY="250.0" prefHeight="25.0" prefWidth="57.0" />
-                  <Button fx:id="nCarButton" layoutX="96.0" layoutY="250.0" mnemonicParsing="false" text="Wyświetl" />
-                  <Separator layoutX="10.0" layoutY="294.0" prefWidth="200.0" />
-                  <Label layoutX="11.0" layoutY="382.0" text="Opcje wyświetlania" />
-                  <CheckBox fx:id="onlyFreeCheckBox" layoutX="23.0" layoutY="412.0" mnemonicParsing="false" text="Wyświetl tylko wolne" />
-                  <Separator layoutX="12.0" layoutY="369.0" prefWidth="200.0" />
-                  <Button fx:id="showAllButton" layoutX="52.0" layoutY="321.0" mnemonicParsing="false" text="Wyświetl wszystkie" onAction="#showAllCars" />
-                  <Button fx:id="cordLoad" layoutX="131.0" layoutY="54.0" mnemonicParsing="false" text="Załaduj" onAction="#loadCords"/>
-               </children>
-        </AnchorPane>
-        <Pane fx:id="centerPane" prefHeight="-1.0" prefWidth="-1.0" />
-        <AnchorPane fx:id="rightAnchorPane" />
-      </items>
-    </SplitPane>
+      <SplitPane dividerPositions="0.2505567928730512, 0.7705567928730512, 0.5" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+          <items>
+              <AnchorPane fx:id="leftAnchorPane">
+                  <children>
+                      <Label layoutX="14.0" layoutY="14.0" text="Podaj swoje współrzędne" />
+                      <TextField fx:id="nCordText" layoutX="39.0" layoutY="41.0" prefHeight="25.0" prefWidth="57.0" />
+                      <TextField fx:id="wCordText" layoutX="39.0" layoutY="77.0" prefHeight="25.0" prefWidth="57.0" />
+                      <Label layoutX="14.0" layoutY="45.0" text="N" />
+                      <Label layoutX="14.0" layoutY="81.0" text="W" />
+                      <Label layoutX="11.0" layoutY="134.0" text="W jakiej odległości szukać samochodu" />
+                      <TextField fx:id="rangeText" layoutX="19.0" layoutY="162.0" prefHeight="25.0" prefWidth="57.0" />
+                      <Button fx:id="rangeShowButton" layoutX="96.0" layoutY="162.0" mnemonicParsing="false" onAction="#showFromRange" text="Wyświetl" />
+                      <Separator layoutX="8.0" layoutY="124.0" prefHeight="0.0" prefWidth="203.0" />
+                      <Separator layoutX="10.0" layoutY="207.0" prefWidth="200.0" />
+                      <Label layoutX="11.0" layoutY="223.0" text="Wyświetl najbliższych n samochodów" />
+                      <Spinner fx:id="carNSpinner" editable="true" layoutX="14.0" layoutY="250.0" prefHeight="25.0" prefWidth="57.0" />
+                      <Button fx:id="nCarButton" layoutX="96.0" layoutY="250.0" mnemonicParsing="false" text="Wyświetl" />
+                      <Separator layoutX="10.0" layoutY="294.0" prefWidth="200.0" />
+                      <Label layoutX="11.0" layoutY="382.0" text="Opcje wyświetlania" />
+                      <CheckBox fx:id="onlyFreeCheckBox" layoutX="23.0" layoutY="412.0" mnemonicParsing="false" text="Wyświetl tylko wolne" />
+                      <Separator layoutX="12.0" layoutY="369.0" prefWidth="200.0" />
+                      <Button fx:id="showAllButton" layoutX="52.0" layoutY="321.0" mnemonicParsing="false" onAction="#showAllCars" text="Wyświetl wszystkie" />
+                      <Button fx:id="cordLoad" layoutX="131.0" layoutY="54.0" mnemonicParsing="false" onAction="#loadCords" text="Załaduj" />
+                  </children>
+              </AnchorPane>
+              <Pane fx:id="centerPane" prefHeight="-1.0" prefWidth="-1.0" />
+            <fx:include source="CarInfoBoard.fxml" fx:id="carBoard" />
+          </items>
+      </SplitPane>
     <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" VBox.vgrow="NEVER">
       <children>
         <Label maxHeight="1.7976931348623157E308" maxWidth="-1.0" text="Left status" HBox.hgrow="ALWAYS">

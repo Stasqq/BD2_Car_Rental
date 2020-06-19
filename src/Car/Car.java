@@ -56,6 +56,8 @@ public class Car {
         }
     }
 
+
+
     public String getModel() {
         return model.get();
     }
@@ -74,5 +76,21 @@ public class Car {
 
     public Status getStatus() {
         return status;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public int getPower() {
+        return power;
+    }
+
+    public int getMileage() {
+        return mileage;
+    }
+
+    public int getId() {
+        return id;
     }
 }

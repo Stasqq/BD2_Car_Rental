@@ -1,4 +1,6 @@
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import Car.*;
 import DBConnection.*;
@@ -6,8 +8,11 @@ import DBConnection.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
 public class Controller {
@@ -35,6 +40,8 @@ public class Controller {
         showAllButton.setDisable(true);
         onlyFreeCheckBox.setDisable(true);
     }
+    @FXML
+    private SplitPane splitPane;
 
     @FXML
     private TextField nCordText;
@@ -65,6 +72,9 @@ public class Controller {
 
     @FXML
     private Pane centerPane;
+
+    @FXML
+    private CarInfoBoardController carBoardController;
 
     @FXML
     private void showAllCars(){
@@ -119,11 +129,11 @@ public class Controller {
         data = FXCollections.observableArrayList(newContent);
 
         TableColumn<Car,String>  company = new TableColumn<Car,String>("Company");
-        company.setMinWidth(100);
+        company.setMinWidth(90);
         company.setCellValueFactory(new PropertyValueFactory<Car,String>("company"));
 
         TableColumn<Car,String>  model = new TableColumn<Car,String> ("Model");
-        model.setMinWidth(100);
+        model.setMinWidth(90);
         model.setCellValueFactory(new PropertyValueFactory<Car,String>("model"));
 
         TableColumn<Car, Double>  longitude = new TableColumn<Car, Double> ("Longitude");
@@ -147,7 +157,8 @@ public class Controller {
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
                     Car rowData = row.getItem();
 
-                    //TODO: wyświetlenie info o samochodzie
+                    carBoardController.fillOpinionTable(rowData);
+                    carBoardController.fillCarInfo(rowData);
                 }
             });
             return row ;
