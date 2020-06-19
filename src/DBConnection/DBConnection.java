@@ -23,11 +23,11 @@ public class DBConnection {
         this.connectionPassword = connectionPassword;
     }
 
-    public ArrayList<Car> getCars(){
+    private ArrayList<Car> dbCarRequest(String requestString){
         ArrayList<Car> cars = new ArrayList<Car>();
         try{
             conn = DriverManager.getConnection(connectionURL,connectionUser,connectionPassword);
-            pst = conn.prepareStatement("select id from car");
+            pst = conn.prepareStatement(requestString);
             rs = pst.executeQuery();
             while(rs.next()){
                 cars.add(getCarById(rs.getInt("id")));
@@ -39,7 +39,42 @@ public class DBConnection {
         return cars;
     }
 
-    public Car getCarById(int carId){
+    public ArrayList<Car> getCars(){
+        return dbCarRequest("select id from car");
+    }
+
+    public ArrayList<Car> getCarsInRange(double userLongitude, double userLattitude,double range){
+        double minLongitude = userLongitude-range,
+                maxLongitude = userLongitude+range,
+                minLattitude = userLattitude-range,
+                maxLattitude = userLattitude+range;
+        if(minLattitude < -180)
+            minLattitude += 360;
+        if(maxLattitude > 180)
+            maxLattitude -= 360;
+        if(minLongitude < -180)
+            minLongitude += 360;
+        if(maxLongitude > 180)
+            maxLongitude -= 360;
+        if(maxLattitude <=  minLattitude && maxLongitude <=  minLongitude)
+            return dbCarRequest("select id from car where id in (select car_id from location where " +
+                    "(lattitude < "+ maxLattitude +" and longitude < "+ maxLongitude +")" +
+                    "or (longitude > "+ minLongitude +" and lattitude > "+ minLattitude +") or " +
+                    "(longitude > "+ minLongitude +" and lattitude < "+ maxLattitude +") or " +
+                    "(longitude < "+ maxLongitude +" and lattitude > "+ minLattitude +"))");
+        else if(maxLattitude <=  minLattitude)
+            return dbCarRequest("select id from car where id in (select car_id from location where " +
+                    "(longitude between "+ minLongitude +" and "+ maxLongitude +") and (lattitude > "+ minLattitude +" or " +
+                    "lattitude < "+maxLattitude+"))");
+        else if(maxLongitude <= minLongitude)
+            return dbCarRequest("select id from car where id in (select car_id from location where " +
+                    "(lattitude between "+ minLattitude +" and "+ maxLattitude +") and (longitude > "+ minLongitude +" or " +
+                    "longitude < "+maxLongitude+"))");
+        return dbCarRequest("select id from car where id in (select car_id from location where (lattitude between "+ minLattitude +" and "+ maxLattitude +")" +
+                "and (longitude between "+ minLongitude +" and "+ maxLongitude +"))");
+    }
+
+    private Car getCarById(int carId){
         try{
             ResultSet brandSet, locationSet, carSet;
             pst = conn.prepareStatement("select type, power, airbags, mileage, status, agency_id from car where id=?");
@@ -64,21 +99,4 @@ public class DBConnection {
         System.out.println("Error in getCarById!");
         return null;
     }
-
-    public ArrayList<Car> getFreeCars(){
-        ArrayList<Car> cars = new ArrayList<Car>();
-        try{
-            conn = DriverManager.getConnection(connectionURL,connectionUser,connectionPassword);
-            pst = conn.prepareStatement("select id from car where status='free'");
-            rs = pst.executeQuery();
-            while(rs.next()){
-                cars.add(getCarById(rs.getInt("id")));
-            }
-            conn.close();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return cars;
-    }
-
 }
