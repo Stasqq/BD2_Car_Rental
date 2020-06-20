@@ -50,7 +50,7 @@
       </HBox>
       <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" spacing="30.0">
          <children>
-            <Button mnemonicParsing="false" text="Wypożycz" />
+            <Button mnemonicParsing="false" onAction="#rent" text="Wypożycz" />
             <Button mnemonicParsing="false" text="Zarezerwuj" />
          </children>
       </HBox>

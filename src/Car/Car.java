@@ -93,4 +93,8 @@ public class Car {
     public int getId() {
         return id;
     }
+
+    public int getAgency_id() {
+        return agency_id;
+    }
 }

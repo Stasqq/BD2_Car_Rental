@@ -31,7 +31,7 @@ public class Controller {
     @FXML
     private void initialize()
     {
-        dbConnection = new DBConnection("jdbc:oracle:thin:@localhost:1521:xe","bdproject","bdproject");
+        dbConnection = new DBConnection("jdbc:oracle:thin:@localhost:1521:xe","\"bdproject\"","\"bdproject\"");
 
         rangeText.setDisable(true);
         rangeShowButton.setDisable(true);
@@ -156,9 +156,10 @@ public class Controller {
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
                     Car rowData = row.getItem();
-
-                    carBoardController.fillOpinionTable(rowData);
-                    carBoardController.fillCarInfo(rowData);
+                    carBoardController.setCar(rowData);
+                    carBoardController.setUserId(1); //TODO dodaj użytkownika
+                    carBoardController.fillOpinionTable();
+                    carBoardController.fillCarInfo();
                 }
             });
             return row ;

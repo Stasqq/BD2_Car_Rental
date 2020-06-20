@@ -139,4 +139,32 @@ import java.util.ArrayList;
         }
         return opinions;
     }
+
+    public void addRental(int userId, Car car,double cost)
+    {
+
+        try{
+            conn = DriverManager.getConnection(connectionURL,connectionUser,connectionPassword);
+            pst = conn.prepareStatement("select Id from Employee where agency_id = ?");
+            pst.setInt(1,car.getAgency_id());
+            rs = pst.executeQuery();
+            rs.next();
+            int employeeId = rs.getInt("id");
+
+
+            pst = conn.prepareStatement("INSERT INTO rental (Start_date, state,EMPLOYEE_ID,CAR_ID,CUSTOMER_ID,PAYMENT_ID,cost) values ('22/06/20','closed',?,?,?,1,?)");
+            pst.setInt(2,car.getId());
+            pst.setInt(1,employeeId);
+            pst.setInt(3,userId);
+            pst.setDouble(4,cost);
+
+            rs = pst.executeQuery();
+
+            conn.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
 }
