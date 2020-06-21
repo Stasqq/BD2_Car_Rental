@@ -35,7 +35,11 @@ public class DBConnection {
             pst = conn.prepareStatement(requestString);
             rs = pst.executeQuery();
             while(rs.next()){
-                cars.add(getCarById(rs.getInt("id")));
+                cars.add(new Car(rs.getInt("Id"),rs.getInt("Agency_id"),
+                        rs.getInt("Power"),rs.getInt("Airbags"),rs.getInt("Mileage"),
+                        rs.getString("Company"),rs.getString("Model"),
+                        rs.getDouble("Longitude"),rs.getDouble("Lattitude"),rs.getString("Status"),
+                        rs.getString("Type")));
             }
             conn.close();
         }catch(Exception e){
@@ -65,7 +69,10 @@ public class DBConnection {
     }
 
     public ArrayList<Car> getCars(){
-        return dbCarRequest("select id from car");
+        return dbCarRequest("select Car.Id, Car.Type, Car.Power, Car.Airbags," +
+                "Car.Mileage, Car.Status, Car.Agency_id, Location.Longitude, Location.Lattitude," +
+                "Brand.Company, Brand.Model from ((Car inner join Brand on Car.id = Brand.Car_id)" +
+                "inner join Location on Car.id = Location.Car_id)");
     }
 
     public ArrayList<Car> getCarsInRange(double userLongitude, double userLattitude,double range){
@@ -82,20 +89,32 @@ public class DBConnection {
         if(maxLongitude > 180)
             maxLongitude -= 360;
         if(maxLattitude <=  minLattitude && maxLongitude <=  minLongitude)
-            return dbCarRequest("select id from car where id in (select car_id from location where " +
+            return dbCarRequest("select Car.Id, Car.Type, Car.Power, Car.Airbags, Car.Mileage, Car.Status, " +
+                    "Car.Agency_id, Location.Longitude, Location.Lattitude, Brand.Company, Brand.Model from " +
+                    "((Car inner join Brand on Car.id = Brand.Car_id) inner join Location on Car.id = Location.Car_id) " +
+                    "where Car.Id in (select car_id from location where "+
                     "(lattitude < "+ maxLattitude +" and longitude < "+ maxLongitude +")" +
                     "or (longitude > "+ minLongitude +" and lattitude > "+ minLattitude +") or " +
                     "(longitude > "+ minLongitude +" and lattitude < "+ maxLattitude +") or " +
                     "(longitude < "+ maxLongitude +" and lattitude > "+ minLattitude +"))");
         else if(maxLattitude <=  minLattitude)
-            return dbCarRequest("select id from car where id in (select car_id from location where " +
+            return dbCarRequest("select Car.Id, Car.Type, Car.Power, Car.Airbags, Car.Mileage, Car.Status," +
+                    "Car.Agency_id, Location.Longitude, Location.Lattitude, Brand.Company, Brand.Model from " +
+                    "((Car inner join Brand on Car.id = Brand.Car_id) inner join Location on Car.id = Location.Car_id)" +
+                    " where Car.Id in (select car_id from location where " +
                     "(longitude between "+ minLongitude +" and "+ maxLongitude +") and (lattitude > "+ minLattitude +" or " +
                     "lattitude < "+maxLattitude+"))");
         else if(maxLongitude <= minLongitude)
-            return dbCarRequest("select id from car where id in (select car_id from location where " +
+            return dbCarRequest("select Car.Id, Car.Type, Car.Power, Car.Airbags, Car.Mileage, Car.Status, "+
+                    " Car.Agency_id, Location.Longitude, Location.Lattitude, Brand.Company, Brand.Model from " +
+                    " ((Car inner join Brand on Car.id = Brand.Car_id) inner join Location on Car.id = Location.Car_id)" +
+                    " where Car.Id in (select car_id from location where " +
                     "(lattitude between "+ minLattitude +" and "+ maxLattitude +") and (longitude > "+ minLongitude +" or " +
                     "longitude < "+maxLongitude+"))");
-        return dbCarRequest("select id from car where id in (select car_id from location where (lattitude between "+ minLattitude +" and "+ maxLattitude +")" +
+        return dbCarRequest("select Car.Id, Car.Type, Car.Power, Car.Airbags, Car.Mileage, Car.Status, " +
+                " Car.Agency_id, Location.Longitude, Location.Lattitude, Brand.Company, Brand.Model from " +
+                " ((Car inner join Brand on Car.id = Brand.Car_id) inner join Location on Car.id = Location.Car_id) " +
+                "where Car.Id in (select car_id from location where (lattitude between "+ minLattitude +" and "+ maxLattitude +")" +
                 "and (longitude between "+ minLongitude +" and "+ maxLongitude +"))");
     }
 
@@ -162,33 +181,6 @@ public class DBConnection {
         {
             e.printStackTrace();
         }
-        return null;
-    }
-
-
-    private Car getCarById(int carId){
-        try{
-            ResultSet brandSet, locationSet, carSet;
-            pst = conn.prepareStatement("select type, power, airbags, mileage, status, agency_id from car where id=?");
-            pst.setInt(1,carId);
-            carSet = pst.executeQuery();
-            pst = conn.prepareStatement("select company, model from brand where car_id=?");
-            pst.setInt(1,carId);
-            brandSet = pst.executeQuery();
-            pst = conn.prepareStatement("select longitude, lattitude from location where car_id=?");
-            pst.setInt(1,carId);
-            locationSet = pst.executeQuery();
-            carSet.next();
-            brandSet.next();
-            locationSet.next();
-            return new Car(carId,carSet.getInt("agency_id"),carSet.getInt("power"),
-                    carSet.getInt("airbags"), carSet.getInt("mileage"),brandSet.getString("company"),
-                    brandSet.getString("model"), locationSet.getDouble("longitude"), locationSet.getDouble("lattitude"),
-                    carSet.getString("status"), carSet.getString("type"));
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        System.out.println("Error in getCarById!");
         return null;
     }
 
