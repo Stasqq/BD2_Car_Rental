@@ -2,12 +2,17 @@ package DBConnection;
 
 import Car.*;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.SecureRandom;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Base64;
 
- public class DBConnection {
+public class DBConnection {
     private String connectionURL;
     private String connectionUser;
     private String connectionPassword;
@@ -94,6 +99,73 @@ import java.util.ArrayList;
                 "and (longitude between "+ minLongitude +" and "+ maxLongitude +"))");
     }
 
+    public void addAccount(String nick, String password,String email, String firstName, String lastName, String phone){
+        try{
+            conn = DriverManager.getConnection(connectionURL,connectionUser,connectionPassword);
+            pst = conn.prepareStatement("insert into customer (Nick, Email, Pasword_Hash, Pasword_Hash_salt,first_Name,last_Name,Phone,Add_date) values (?,?,?,?,?,?,?,?)");
+            SecureRandom random = new SecureRandom();
+            byte[] hashedPassword;
+            byte[] salt = new byte[16];
+            random.nextBytes(salt);
+            MessageDigest md = null;
+            md = MessageDigest.getInstance("SHA-512");
+            md.update(salt);
+            hashedPassword = md.digest(password.getBytes(StandardCharsets.UTF_8));
+            pst.setString(1,nick);
+            pst.setString(2,email);
+            pst.setString(3,Base64.getEncoder().encodeToString(hashedPassword));
+            pst.setString(4,Base64.getEncoder().encodeToString(salt));
+            pst.setString(5,firstName);
+            pst.setString(6,lastName);
+            pst.setString(7,phone);
+            pst.setDate(8, new Date(System.currentTimeMillis()));
+            rs = pst.executeQuery();
+            conn.close();
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public User singIn(String email, String password){
+        try{
+            conn = DriverManager.getConnection(connectionURL,connectionUser,connectionPassword);
+            pst = conn.prepareStatement("select * from customer" +
+                    " where Email = ?");
+            pst.setString(1,email);
+            rs = pst.executeQuery();
+            if(rs.next()){
+                String saltString = rs.getString("Pasword_Hash_salt");
+                String hashString = rs.getString("Pasword_Hash");
+                byte[] hashedPassword;
+                byte[] salt = Base64.getDecoder().decode(saltString);
+                MessageDigest md = null;
+                md = MessageDigest.getInstance("SHA-512");
+                md.update(salt);
+                hashedPassword = md.digest(password.getBytes(StandardCharsets.UTF_8));
+                if(Base64.getEncoder().encodeToString(hashedPassword).equals(hashString)){
+                    User user = new User(rs.getInt("id"),rs.getString("Nick"),rs.getString("Email"),
+                            rs.getString("First_name"),rs.getString("Last_name"),
+                            rs.getString("Phone"),new java.util.Date(rs.getDate("Add_Date").getTime()));
+                    conn.close();
+                    return user;
+                }else{
+                    conn.close();
+                    return null;
+                }
+            }else{
+                conn.close();
+                return null;
+            }
+
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
     private Car getCarById(int carId){
         try{
             ResultSet brandSet, locationSet, carSet;
@@ -165,6 +237,56 @@ import java.util.ArrayList;
             e.printStackTrace();
         }
 
+    }
+
+    public boolean isFree(Car car)
+    {
+        String status = "";
+        try{
+            conn = DriverManager.getConnection(connectionURL,connectionUser,connectionPassword);
+            pst = conn.prepareStatement("select status from car where id = ?");
+            pst.setInt(1,car.getId());
+            rs = pst.executeQuery();
+            rs.next();
+             status = rs.getString("status");
+
+
+
+
+            conn.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return status.equals("free");
+
+
+    }
+    public void setCarFree(Car car)
+    {
+        try{
+            conn = DriverManager.getConnection(connectionURL,connectionUser,connectionPassword);
+            pst = conn.prepareStatement("update car  set status = ? where id = ?");
+            pst.setInt(2,car.getId());
+            pst.setString(1,"free");
+            pst.executeQuery();
+            conn.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    public void setCarRented(Car car)
+    {
+        try{
+            conn = DriverManager.getConnection(connectionURL,connectionUser,connectionPassword);
+            pst = conn.prepareStatement("update car  set status = ? where id = ?");
+            pst.setInt(2,car.getId());
+            pst.setString(1,"rented");
+            pst.executeQuery();
+            conn.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
 }

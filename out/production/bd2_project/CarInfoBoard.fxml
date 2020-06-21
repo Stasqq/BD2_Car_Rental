@@ -51,7 +51,7 @@
       <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" spacing="30.0">
          <children>
             <Button mnemonicParsing="false" onAction="#rent" text="Wypożycz" />
-            <Button mnemonicParsing="false" text="Zarezerwuj" />
+            <Button mnemonicParsing="false" onAction="#reserve" text="Zarezerwuj" />
          </children>
       </HBox>
       <ListView fx:id="opinionList" maxHeight="1.7976931348623157E308" prefHeight="274.0" prefWidth="200.0" />

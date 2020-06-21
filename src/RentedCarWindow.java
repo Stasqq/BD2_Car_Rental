@@ -34,6 +34,18 @@ public class RentedCarWindow
     @FXML
     private ToggleButton stopToggle;
 
+    @FXML
+    private Label drivingTimeTitleLabel;
+    @FXML
+    private Label distanceTitleLabel;
+    @FXML
+    private Label costTitleLabel;
+    @FXML
+    private Button openDoorsButton;
+
+    private boolean drivingMode;
+
+
 
 
     @FXML
@@ -41,6 +53,7 @@ public class RentedCarWindow
     {
         timer1.schedule (timer1_task, 0, 1000);
     }
+
     public void tick()
     {
         rentTime++;
@@ -53,14 +66,70 @@ public class RentedCarWindow
 
         Platform.runLater(() -> {
             rentTimeLabel.setText(rentTime / 60 + ":" + rentTime%60);
-            drivingTimeLabel.setText(drivingTime / 60 + ":" + drivingTime%60);
-            distanceLabel.setText(distance+"km");
-             cost = 80.0*distance +50.0 * drivingTime/60 + 20.0 * (rentTime - drivingTime)/60;
-            cost = Math.round(cost)/100.0;
-            costLabel.setText( cost+"zł");
+            if(drivingMode) {
+                drivingTimeLabel.setText(drivingTime / 60 + ":" + drivingTime % 60);
+                distance *= 100;
+                distance = Math.round(distance);
+                distance /= 100;
+                distanceLabel.setText(distance + "km");
+                cost = 80.0 * distance + 50.0 * drivingTime / 60 + 20.0 * (rentTime - drivingTime) / 60;
+                cost = Math.round(cost) / 100.0;
+                costLabel.setText(cost + "zł");
+            }
         });
 
 
+    }
+    public void setReservedMode()
+    {
+        drivingMode = false;
+
+        drivingTimeTitleLabel.setDisable(true);
+        drivingTimeTitleLabel.setOpacity(0.0);
+
+        distanceTitleLabel.setDisable(true);
+        distanceTitleLabel.setOpacity(0.0);
+
+        costTitleLabel.setDisable(true);
+        costTitleLabel.setOpacity(0.0);
+
+        checkoutButton.setOpacity(0.0);
+        checkoutButton.setDisable(true);
+
+        stopToggle.setOpacity(0.0);
+        stopToggle.setDisable(true);
+
+        openDoorsButton.setDisable(false);
+        openDoorsButton.setOpacity(1.0);
+    }
+    public void setDrivingMode()
+    {
+        drivingMode = true;
+
+        drivingTimeTitleLabel.setDisable(false);
+        drivingTimeTitleLabel.setOpacity(1.0);
+
+        distanceTitleLabel.setDisable(false);
+        distanceTitleLabel.setOpacity(1.0);
+
+        costTitleLabel.setDisable(false);
+        costTitleLabel.setOpacity(1.0);
+
+        checkoutButton.setOpacity(1.0);
+        checkoutButton.setDisable(false);
+
+        stopToggle.setOpacity(1.0);
+        stopToggle.setDisable(false);
+
+        openDoorsButton.setDisable(true);
+        openDoorsButton.setOpacity(0.0);
+    }
+
+
+    @FXML
+    private void openDoors()
+    {
+        this.setDrivingMode();
     }
 
 
@@ -68,6 +137,7 @@ public class RentedCarWindow
     {
         timer1.cancel();
         dbConnection.addRental(userID,car,cost);
+        dbConnection.setCarFree(car);
 
         Stage stage = (Stage) checkoutButton.getScene().getWindow();
         stage.close();

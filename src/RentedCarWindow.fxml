@@ -22,7 +22,7 @@
                   <Font name="System Bold" size="36.0" />
                </font>
             </Label>
-            <Label layoutX="119.0" layoutY="20.0" text="Czas jazdy">
+            <Label fx:id="drivingTimeTitleLabel" layoutX="119.0" layoutY="20.0" text="Czas jazdy">
                <font>
                   <Font size="20.0" />
                </font>
@@ -32,7 +32,7 @@
                   <Font name="System Bold" size="36.0" />
                </font>
             </Label>
-            <Label text="Przejechane kilometry">
+            <Label fx:id="distanceTitleLabel" text="Przejechane kilometry">
                <VBox.margin>
                   <Insets bottom="5.0" top="10.0" />
                </VBox.margin>
@@ -45,7 +45,7 @@
                   <Font name="System Bold" size="36.0" />
                </font>
             </Label>
-            <Label layoutX="86.0" layoutY="201.0" text="Koszt">
+            <Label fx:id="costTitleLabel" layoutX="86.0" layoutY="201.0" text="Koszt">
                <font>
                   <Font size="20.0" />
                </font>
@@ -55,6 +55,11 @@
                   <Font name="System Bold" size="36.0" />
                </font>
             </Label>
+            <Button fx:id="openDoorsButton" mnemonicParsing="false" onAction="#openDoors" prefHeight="58.0" prefWidth="125.0" text="Otwórz drzwi">
+               <VBox.margin>
+                  <Insets top="-50.0" />
+               </VBox.margin>
+            </Button>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
                   <Button fx:id="checkoutButton" mnemonicParsing="false" onAction="#checkout" text="Zakończ" textAlignment="CENTER">

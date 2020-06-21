@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.control.PasswordField?>
+
+<Pane maxHeight="300.0" maxWidth="300.0" minHeight="300.0" minWidth="300.0" prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SingInController">
+   <children>
+      <TextField fx:id="email" layoutX="88.0" layoutY="95.0" />
+      <PasswordField fx:id="password" layoutX="88.0" layoutY="150.0" />
+      <Label layoutX="40.0" layoutY="99.0" text="Email" />
+      <Label layoutX="29.0" layoutY="154.0" text="Password" />
+      <Button fx:id="login" layoutX="181.0" layoutY="195.0" mnemonicParsing="false" text="Zaloguj" onAction="#loginAccount"/>
+      <Button fx:id="newAccount" layoutX="33.0" layoutY="243.0" mnemonicParsing="false" text="Załóż nowe konto" onAction="#openSingUp" />
+   </children>
+</Pane>

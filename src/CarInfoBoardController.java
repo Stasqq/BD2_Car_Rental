@@ -1,4 +1,4 @@
-import Car.Car;
+import Car.*;
 import DBConnection.DBConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -82,35 +83,65 @@ public class CarInfoBoardController
             }
         });
     }
+
     @FXML
     private void rent()
     {
-        Parent root = null;
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("RentedCarWindow.fxml"));
-            root = loader.load();
-            rentedCarWindow= loader.getController(); //pobiera kontroler
-            Stage primaryStage = new Stage();
-            primaryStage.setTitle("Car Sharing");
-            primaryStage.setScene(new Scene(root));
-            rentedCarWindow.setCar(this.car);
-            rentedCarWindow.setUserID(this.userId);
-            primaryStage.show();
 
-
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(!dbConnection.isFree(car)) {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Auto jest nie dostępne");
+            alert.show();
         }
+        else {
+            dbConnection.setCarRented(car);
+            Parent root = null;
+            try {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("RentedCarWindow.fxml"));
+                root = loader.load();
+                rentedCarWindow = loader.getController(); //pobiera kontroler
+                Stage primaryStage = new Stage();
+                primaryStage.setTitle("Car Sharing");
+                primaryStage.setScene(new Scene(root));
+                rentedCarWindow.setCar(this.car);
+                rentedCarWindow.setUserID(this.userId);
+                rentedCarWindow.setDrivingMode();
+                primaryStage.show();
 
 
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    @FXML
+    private void reserve()
+    {
+        if(!dbConnection.isFree(car)) {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Auto jest nie dostępne");
+            alert.show();
+        }
+        else {
+            dbConnection.setCarRented(car);
+            Parent root = null;
+            try {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("RentedCarWindow.fxml"));
+                root = loader.load();
+                rentedCarWindow = loader.getController(); //pobiera kontroler
+                Stage primaryStage = new Stage();
+                primaryStage.setTitle("Car Sharing");
+                primaryStage.setScene(new Scene(root));
+                rentedCarWindow.setCar(this.car);
+                rentedCarWindow.setUserID(this.userId);
+                rentedCarWindow.setReservedMode();
+                primaryStage.show();
 
 
-
-
-
-
-
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
       public  void fillCarInfo()

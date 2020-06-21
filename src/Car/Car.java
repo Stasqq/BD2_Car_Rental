@@ -1,6 +1,5 @@
 package Car;
 
-
 import javafx.beans.property.SimpleStringProperty;
 
 public class Car {
