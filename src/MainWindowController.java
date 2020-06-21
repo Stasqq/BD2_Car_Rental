@@ -39,8 +39,6 @@ public class MainWindowController {
 
         rangeText.setDisable(true);
         rangeShowButton.setDisable(true);
-        carNSpinner.setDisable(true);
-        nCarButton.setDisable(true);
         showAllButton.setDisable(true);
         onlyFreeCheckBox.setDisable(true);
     }
@@ -66,12 +64,6 @@ public class MainWindowController {
 
     @FXML
     private Button rangeShowButton;
-
-    @FXML
-    private Spinner carNSpinner;
-
-    @FXML
-    private Button nCarButton;
 
     @FXML
     private Button showAllButton;
@@ -101,8 +93,6 @@ public class MainWindowController {
             user.setLongitude(Double.parseDouble(wCordText.getCharacters().toString()));
             rangeText.setDisable(false);
             rangeShowButton.setDisable(false);
-            carNSpinner.setDisable(false);
-            nCarButton.setDisable(false);
             showAllButton.setDisable(false);
             onlyFreeCheckBox.setDisable(false);
         } else {
