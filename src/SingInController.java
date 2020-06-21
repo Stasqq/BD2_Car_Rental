@@ -74,10 +74,22 @@ public class SingInController {
             Alert alert = new Alert(Alert.AlertType.WARNING, "Nie wprowadzono danych logowania!");
             alert.show();
         }else{
-            User user = dbConnection.singIn(email.getText(),password.getText());
+            User user = null;
+            long[] timesTab = new long[20];
 
-            if(user != null)
-                return user;
+            for(int i=0;i<20;i++){
+                long start = System.nanoTime();
+                user = dbConnection.singIn(email.getText(),password.getText());
+                timesTab[i] = System.nanoTime() - start;
+            }
+
+            long sum=0;
+            for(long time : timesTab)
+                sum +=(time/1000000);
+
+            System.out.println("Sredni czas wykonania 1 zalogowania to: "+sum/20+" ms");
+
+            return user;
         }
         return null;
     }

@@ -79,7 +79,19 @@ public class MainWindowController {
 
     @FXML
     private void showAllCars(){
-        updateTableContent(dbConnection.getCars());
+        long[] timesTab = new long[20];
+
+        for(int i=0;i<20;i++){
+            long start = System.nanoTime();
+            updateTableContent(dbConnection.getCars());
+            timesTab[i] = System.nanoTime() - start;
+        }
+
+        long sum=0;
+        for(long time : timesTab)
+            sum +=(time/1000000);
+
+        System.out.println("Sredni czas wyswietlenia samochodow to: "+sum/20+" ms");
     }
 
     @FXML
@@ -107,7 +119,20 @@ public class MainWindowController {
             Alert alert = new Alert(Alert.AlertType.WARNING, "Nie podano zakresu!");
             alert.show();
         } else if (Double.parseDouble(rangeText.getCharacters().toString()) <= 180) {
-            updateTableContent(dbConnection.getCarsInRange(user.getLongitude(),user.getLattitude(),Double.parseDouble(rangeText.getCharacters().toString())));
+            long[] timesTab = new long[20];
+
+            for(int i=0;i<20;i++){
+                long start = System.nanoTime();
+                updateTableContent(dbConnection.getCarsInRange(user.getLongitude(),user.getLattitude(),Double.parseDouble(rangeText.getCharacters().toString())));
+                timesTab[i] = System.nanoTime() - start;
+            }
+
+            long sum=0;
+            for(long time : timesTab)
+                sum +=(time/1000000);
+
+            System.out.println("Sredni czas wyswietlenia samochodow w zakresie to: "+sum/20+" ms");
+
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING, "Podano zły zakres!");
             alert.show();

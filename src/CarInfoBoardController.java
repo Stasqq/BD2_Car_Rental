@@ -93,7 +93,20 @@ public class CarInfoBoardController
             alert.show();
         }
         else {
-            dbConnection.setCarRented(car);
+            long[] timesTab = new long[20];
+
+            for(int i=0;i<20;i++){
+                long start = System.nanoTime();
+                dbConnection.setCarRented(car);
+                timesTab[i] = System.nanoTime() - start;
+            }
+
+            long sum=0;
+            for(long time : timesTab)
+                sum +=(time/1000000);
+
+            System.out.println("Sredni czas wypozyczenia samochodu to: "+sum/20+" ms");
+
             Parent root = null;
             try {
                 FXMLLoader loader = new FXMLLoader();

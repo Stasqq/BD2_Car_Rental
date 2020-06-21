@@ -43,7 +43,20 @@ public class SingUpController {
     @FXML
     private void singUp(){
         if(checkIfValuesCorrect()){
-            dbConnection.addAccount(nick.getText(),password.getText(),email.getText(),firstName.getText(),lastName.getText(),phone.getText());
+            long[] timesTab = new long[20];
+
+            for(int i=0;i<20;i++){
+                long start = System.nanoTime();
+                dbConnection.addAccount(nick.getText(),password.getText(),email.getText(),firstName.getText(),lastName.getText(),phone.getText());
+                timesTab[i] = System.nanoTime() - start;
+            }
+
+            long sum=0;
+            for(long time : timesTab)
+                sum +=(time/1000000);
+
+            System.out.println("Sredni zarejestrowania 1 uzytkownika to: "+sum/20+" ms");
+
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Poprawnie założono konto!");
             alert.show();
             Stage stage = (Stage) singUp.getScene().getWindow();
