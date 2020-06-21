@@ -7,13 +7,17 @@ import DBConnection.*;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class MainWindowController {
 
@@ -31,7 +35,7 @@ public class MainWindowController {
     @FXML
     private void initialize()
     {
-        dbConnection = new DBConnection("jdbc:oracle:thin:@localhost:1521:xe","\"bdproject\"","\"bdproject\"");
+        dbConnection = new DBConnection("jdbc:oracle:thin:@localhost:1521:xe","bdproject","bdproject");
 
         rangeText.setDisable(true);
         rangeShowButton.setDisable(true);
@@ -183,4 +187,32 @@ public class MainWindowController {
         centerPane.getChildren().add(table);
     }
 
+    public void logout() {
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("sing_in.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Car Sharing");
+            stage.setScene(new Scene(loader.load()));
+            stage.show();
+            Stage thisStage = (Stage) rangeText.getScene().getWindow();
+            user = null;
+            thisStage.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void accountInfo(ActionEvent actionEvent) {
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("accountInfo.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Informacje o koncie");
+            stage.setScene(new Scene(loader.load()));
+            AccountInfoController accountInfoController = loader.<AccountInfoController>getController();
+            accountInfoController.initUser(user);
+            stage.show();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 }

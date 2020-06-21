@@ -37,7 +37,7 @@ public class SingUpController {
 
     @FXML
     private void initialize() {
-        dbConnection = new DBConnection("jdbc:oracle:thin:@localhost:1521:xe","\"bdproject\"","\"bdproject\"");
+        dbConnection = new DBConnection("jdbc:oracle:thin:@localhost:1521:xe","bdproject","bdproject");
     }
 
     @FXML

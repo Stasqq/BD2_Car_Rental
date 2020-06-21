@@ -28,6 +28,8 @@ public class User {
         this.lastName=lastName;
         this.phone=phone;
         this.addDate=addDate;
+        this.lattitude = -181;
+        this.longitude = -181;
     }
 
     public double getLongitude() {

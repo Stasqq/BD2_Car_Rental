@@ -19,7 +19,7 @@ public class RentedCarWindow
     private int userID;
     private double cost;
 
-    private DBConnection dbConnection = new DBConnection("jdbc:oracle:thin:@localhost:1521:xe", "\"bdproject\"", "\"bdproject\"");
+    private DBConnection dbConnection = new DBConnection("jdbc:oracle:thin:@localhost:1521:xe", "bdproject", "bdproject");
 
     @FXML
     private Button checkoutButton;
