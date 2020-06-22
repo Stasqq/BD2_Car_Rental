@@ -88,8 +88,10 @@ public class MainWindowController {
         }
 
         long sum=0;
-        for(long time : timesTab)
+        for(long time : timesTab){
+            System.out.println(time);
             sum +=(time/1000000);
+        }
 
         System.out.println("Sredni czas wyswietlenia samochodow to: "+sum/20+" ms");
     }
@@ -128,8 +130,10 @@ public class MainWindowController {
             }
 
             long sum=0;
-            for(long time : timesTab)
+            for(long time : timesTab){
+                System.out.println(time);
                 sum +=(time/1000000);
+            }
 
             System.out.println("Sredni czas wyswietlenia samochodow w zakresie to: "+sum/20+" ms");
 

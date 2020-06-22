@@ -52,8 +52,10 @@ public class SingUpController {
             }
 
             long sum=0;
-            for(long time : timesTab)
+            for(long time : timesTab){
+                System.out.println(time);
                 sum +=(time/1000000);
+            }
 
             System.out.println("Sredni zarejestrowania 1 uzytkownika to: "+sum/20+" ms");
 

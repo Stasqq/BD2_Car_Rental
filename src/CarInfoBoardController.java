@@ -102,8 +102,10 @@ public class CarInfoBoardController
             }
 
             long sum=0;
-            for(long time : timesTab)
+            for(long time : timesTab){
+                System.out.println(time);
                 sum +=(time/1000000);
+            }
 
             System.out.println("Sredni czas wypozyczenia samochodu to: "+sum/20+" ms");
 
